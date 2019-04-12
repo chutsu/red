@@ -1,3 +1,4 @@
+# latex
 *.aux
 *.bbl
 *.blg
@@ -9,14 +10,15 @@
 *.synctex.gz
 *.fdb_latexmk
 *.fls
-
 *~
 
+# general dirs and files
 lib
 bin
 obj
 tags
 build
+deps
 
 # matlab
 *.mat
@@ -26,5 +28,3 @@ octave-workspace
 
 # misc
 .ropeproject
-
-*.pyc
