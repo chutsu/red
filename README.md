@@ -5,12 +5,16 @@ Red Squadron apps and docs.
 
 # Instructions
 
-To run QGroundControl just type
+Make targets:
 
-    make qgc
+    qgc:
 
-The above command will download and install QGroundControl for you if it does
-not exist.
+      Run QGroundControl. The command will download and install
+      QGroundControl for you if it does not exist.
+
+    ubuntu18_usb:
+
+      Launch Startup Disk Creator to create a Ubuntu USB install stick.
 
 
 ## LICENCE
