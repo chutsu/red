@@ -1,6 +1,17 @@
 # red
 
-Red Squadron install scripts and docs.
+Red Squadron apps and docs.
+
+
+# Instructions
+
+To run QGroundControl just type
+
+    make qgc
+
+The above command will download and install QGroundControl for you if it does
+not exist.
+
 
 ## LICENCE
 
