@@ -7,12 +7,12 @@ Red Squadron apps and docs.
 
 Make targets:
 
-    qgc:
+    qgc
 
       Run QGroundControl. The command will download and install
       QGroundControl for you if it does not exist.
 
-    ubuntu18_usb:
+    ubuntu18_usb
 
       Launch Startup Disk Creator to create a Ubuntu USB install stick.
 

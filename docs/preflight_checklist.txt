@@ -1,0 +1,8 @@
+- Connectors tight and secure
+- Motor order
+- Motor direction
+- Prop direction
+- Failsafe altitude
+
+- Kill switch
+- Offboard mode switch
