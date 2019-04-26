@@ -16,6 +16,19 @@ Make targets:
 
       Launch Startup Disk Creator to create a Ubuntu USB install stick.
 
+    drone_setup_base
+
+      Install/uninstall packages and apply settings on the Ubuntu 18.04 server
+      installation.
+
+    drone_setup_ros
+
+      Install ROS Melodic base (no GUI tools).
+
+    drone_setup_realsense
+
+      Install the Intel Realsense drivers and development headers.
+
 
 ## LICENCE
 

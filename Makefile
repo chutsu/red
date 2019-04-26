@@ -20,6 +20,15 @@ ubuntu18_usb:
 	@echo "[Create Ubuntu install USB stick]"
 	@sudo usb-creator-gtk
 
+drone_setup_base:
+	./scripts/Ubuntu_1804_server_setup.sh
+
+drone_setup_ros:
+	./scripts/Ubuntu_1804_server_ros_setup.sh
+
+drone_setup_realsense:
+	./scripts/Ubuntu_1804_server_realsense_setup.sh
+
 deps: ${QGROUNDCONTROL}
 
 qgc: ${QGROUNDCONTROL}
