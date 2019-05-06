@@ -6,8 +6,11 @@ If you only have one RAM stick, make sure to place it in the top RAM slot.
 
 
 ## Software
+Enter the BIOS with F2 and disable Secure Boot under Boot options to make your
+life easier.
+
 Ubuntu Server 18.04 seems to work fine. You might want to disable automatic
-upgrades and snap support with:
+upgrades and snap support after installation by running
 ```
 sudo apt purge snapd unattended-upgrades
 ```
@@ -29,7 +32,8 @@ on the host computer.
 To set a static IP address on the NUC first run `ip a` to see the Ethernet
 interface's name. Should be something like `enp0s*`.  Then create the file
 `/etc/netplan/01-netcfg.yaml` and paste in the following to set the NUC's IP
-address to `10.42.0.2`
+address to `10.42.0.2`. Make sure to set the correct interface name under
+`ethernets` and the desired IP address in `addresses`.
 ``` yaml
 network:
     version: 2
