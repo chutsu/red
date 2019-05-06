@@ -29,6 +29,9 @@ drone_setup_ros:
 drone_setup_realsense:
 	./scripts/Ubuntu_1804_server_realsense_setup.sh
 
+drone_test_realsense:
+	./scripts/test_realsense_output.py
+
 deps: ${QGROUNDCONTROL}
 
 qgc: ${QGROUNDCONTROL}

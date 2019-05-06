@@ -29,6 +29,11 @@ Make targets:
 
       Install the Intel Realsense drivers and development headers.
 
+    drone_test_realsense
+
+      Run a Python script to visualize the RealSense depth measurements using
+      ASCII on the terminal.
+
 
 ## LICENCE
 
