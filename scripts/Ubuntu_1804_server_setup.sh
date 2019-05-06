@@ -21,9 +21,10 @@ install-packages() {
 	sudo apt-get -qq install moreutils # Extra utilities
 	sudo apt-get -qq install p7zip-full p7zip-rar # Unpack 7zip and rar archives
 	sudo apt-get -qq install powertop # Report power usage
-	sudo apt-get -qq install rsync
+	sudo apt-get -qq install python-pip python3-pip
+	sudo apt-get -qq install rsync # Efficiently transfer files over the network
 	sudo apt-get -qq install screen
-	sudo apt-get -qq install vifm
+	sudo apt-get -qq install vifm # File manager with vi-like keybindings
 	sudo apt-get -qq install vim
 	sudo apt-get -qq install w3m # Text web browser
 	echo "Packages installed #################################################"

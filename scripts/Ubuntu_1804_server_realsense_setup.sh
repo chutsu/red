@@ -12,6 +12,10 @@ install-ppa-realsense() {
 	sudo apt-get -qq install librealsense2-dkms
 	sudo apt-get -qq install librealsense2-utils
 	sudo apt-get -qq install librealsense2-dev
+
+	# Install the Python wrapper
+	sudo apt -qq install python3-pip
+	pip3 install --user pyrealsense2
 }
 
 
