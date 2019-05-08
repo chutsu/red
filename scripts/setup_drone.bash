@@ -2,8 +2,8 @@
 set -e  # Exit on first error
 
 rm -rf $HOME/* # Clear all folders
-sudo apt-get -qq install git
+sudo apt-get -qq install git make
 
-git clone https://github.com:chutsu/red
+git clone https://github.com/chutsu/red
 cd red
 make drone_setup_base
