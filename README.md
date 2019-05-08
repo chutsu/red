@@ -5,6 +5,10 @@ Red Squadron apps and docs.
 
 # Instructions
 
+To setup the drone, enter the following commands in the terminal:
+
+    curl -L https://git.io/fjcN6 > setup_drone.sh && sh setup_drone.sh
+
 Make targets:
 
     qgc
