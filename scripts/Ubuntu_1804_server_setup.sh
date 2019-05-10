@@ -18,6 +18,7 @@ install-packages() {
 	sudo apt-get -qq install gdb
 	sudo apt-get -qq install git
 	sudo apt-get -qq install htop
+	sudo apt-get -qq install openssh-server
 	sudo apt-get -qq install moreutils # Extra utilities
 	sudo apt-get -qq install p7zip-full p7zip-rar # Unpack 7zip and rar archives
 	sudo apt-get -qq install powertop # Report power usage
