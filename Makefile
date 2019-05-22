@@ -32,6 +32,24 @@ drone_setup_realsense:
 drone_test_realsense:
 	./scripts/test_realsense_output.py
 
+setup_time_sync_client:
+	@sudo apt-get remove ntp ntpdate
+	@sudo apt-get install chrony
+	@sudo cp configs/chrony_client.conf /etc/chrony/chrony.conf
+	@sudo systemctl restart chrony.service
+	@sleep 2
+	@sudo systemctl --no-pager status chrony.service
+	chronyc sources
+
+setup_time_sync_server:
+	@sudo apt-get remove ntp ntpdate -qq
+	@sudo apt-get install chrony -qq
+	@sudo cp configs/chrony_server.conf /etc/chrony/chrony.conf
+	@sudo systemctl restart chrony.service
+	@sleep 2
+	@sudo systemctl --no-pager status chrony.service
+	chronyc sourcestats
+
 deps: ${QGROUNDCONTROL}
 
 qgc: ${QGROUNDCONTROL}
