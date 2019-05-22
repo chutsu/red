@@ -42,8 +42,8 @@ setup_time_sync_server:
 	chronyc sourcestats
 
 setup_time_sync_client:
-	@sudo apt-get remove ntp ntpdate
-	@sudo apt-get install chrony
+	@sudo apt-get remove ntp ntpdate -qq
+	@sudo apt-get install chrony -qq
 	@sudo cp configs/chrony_client.conf /etc/chrony/chrony.conf
 	@sudo systemctl restart chrony.service
 	@sleep 2
