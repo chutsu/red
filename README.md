@@ -7,9 +7,9 @@ Red Squadron apps and docs.
 
 To setup the drone, enter the following commands in the terminal:
 
-    wget -O setup_drone.bash https://git.io/fjcN6 && sh setup_drone.sh
+    wget -O setup_drone.bash https://git.io/fjcN6 && bash setup_drone.bash
 
-Make targets:
+Else the `make` targets are:
 
     qgc
 
