@@ -3,6 +3,5 @@
 - Motor direction
 - Prop direction
 - Failsafe altitude
-
 - Kill switch
 - Offboard mode switch

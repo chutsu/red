@@ -1,9 +1,8 @@
 #!/bin/bash
-# Ubuntu 18.04 server ROS installation script ##################################
 set -euo pipefail
 IFS=$'\n\t'
 
-install-ros() {
+install_ros() {
 	# http://wiki.ros.org/melodic/Installation/Ubuntu
 	# Setup repository
 	sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -17,5 +16,4 @@ install-ros() {
 	rosdep update
 }
 
-install-ros
-
+install_ros

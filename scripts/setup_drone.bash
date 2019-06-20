@@ -6,4 +6,5 @@ sudo apt-get -qq install git make
 
 git clone https://github.com/chutsu/red
 cd red
-make drone_setup_base
+make install_base
+make install_ros
