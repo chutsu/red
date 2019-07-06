@@ -1,0 +1,131 @@
+\documentclass[10pt,twoside,a4paper]{article}
+
+\usepackage[a4paper, portrait, margin=1.0in]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{algorithm2e}
+\usepackage{listings}
+\lstset{
+	frame=single,
+	basicstyle=\footnotesize,
+}
+
+
+
+\title{\bf SRL Quadcopter Mk1 Assembly Guide}
+\author{}
+\date{\today}
+
+
+
+
+
+\begin{document}
+
+\maketitle
+
+\section{Power Circuit}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/power_1.jpg}
+	\caption{Unsolder the power circuit's input connector (female). Do not throw
+	it away as it will be used later. You might need to increase the
+temperature of your soldering iron for this.}
+	\label{fig:power_1}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/power_2.jpg}
+	\caption{Solder cables to the now empty input pads.}
+	\label{fig:power_1}
+\end{figure}
+
+
+TODO: splicing the cable.
+
+
+
+
+
+\section{Power Distribution Board}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/baseplate.jpg}
+	\caption{First solder the battery female connector removed from the power
+		circuit on the PDB/baseplate taking note of the polarity (It is
+		soldered last in the photo but you shouldn't do this). Make sure there
+		is enough clearance for the drone arm when soldering the connector as
+		these cables do not bend. Make sure to take note of the drone's
+		orientation. The battery connector should be soldered at the back left
+		arm. Solder each of the ESCs on the PDB taking not of the polarity.
+		Perform a continuity test with a multimeter to ensure the connections
+		are correct and there are no short circuits. The voltage used by the
+		multimeter to measure continuity may in some cases result in the ESC
+	transistors to become conductive and show continuity between the negative
+and positive terminal. If you swap the multimeter probes this should stop.}
+	\label{fig:baseplate}
+\end{figure}
+
+TODO: Mark front/back on image.
+
+
+
+
+\section{Frame and Motor Assembly}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/motors.jpg}
+	\caption{Screw each of the drone arms on the PDB/baseplate and then screw
+		the top plate on them. Make sure the two red arms are placed at the
+		back of the drone. Screw each of the motors on the arms. Make sure the
+		motor rotation directions are correct.}
+	\label{fig:baseplate}
+\end{figure}
+
+TODO: Mark front/back and motor directions on image.
+
+
+
+
+
+
+
+
+\section{Appendix}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.45\textwidth]{images/grau_pixracer_double.jpg}
+	\caption{Pixracer pinout diagram.}
+	\label{fig:pixracer_pinout}
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.45\textwidth]{images/grau_setup_pixracer_bottom.jpg}
+	\caption{Pixracer bottom wiring diagram.}
+	\label{fig:pixracer_pinout}
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.45\textwidth]{images/grau_setup_pixracer_top.jpg}
+	\caption{Pixracer top wiring diagram.}
+	\label{fig:pixracer_pinout}
+\end{figure}
+
+
+
+
+
+
+
+
+
+\end{document}
+
