@@ -38,6 +38,16 @@ Else the `make` targets are:
       Run a Python script to visualize the RealSense depth measurements using
       ASCII on the terminal.
 
+    setup_time_sync_server
+
+      Setup time sychronization server using chrony. The settings for the
+      server reside in configs/chrony_server.conf.
+
+    setup_time_sync_client
+
+      Setup time sychronization clients using chrony. The settings for the
+      client reside in configs/chrony_client.conf.
+
 
 ## LICENCE
 

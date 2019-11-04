@@ -3,7 +3,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-install-ppa-realsense() {
+install_ppa_realsense() {
 	sudo apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || \
 			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 \
 			--recv-key C8B3A55A6F3EFCDE
@@ -18,6 +18,4 @@ install-ppa-realsense() {
 	pip3 install --user pyrealsense2
 }
 
-
-install-ppa-realsense
-
+install_ppa_realsense
