@@ -2,9 +2,11 @@ include config.mk
 
 default: dirs deps
 
+.PHONY: dirs
 dirs:
 	@mkdir -p deps
 
+.PHONY: clean
 clean:
 	@rm -rf deps
 
@@ -16,22 +18,22 @@ ${QGROUNDCONTROL}:
 	@wget ${QGROUNDCONTROL_URL} -P ${DEPS_DIR}
 	@chmod +x ${DEPS_DIR}/QGroundControl.AppImage
 
+.PHONY: ubuntu18_usb
 ubuntu18_usb:
 	@echo "[Create Ubuntu install USB stick]"
 	@sudo usb-creator-gtk
 
+.PHONY: install_base
 install_base:
 	./scripts/install_base.bash
-
-install_ros:
 	./scripts/install_ros.bash
-
-install_realsense:
 	./scripts/install_realsense.bash
 
+.PHONY: test_realsense
 test_realsense:
 	./scripts/test_realsense_output.py
 
+.PHONY: setup_time_sync_server
 setup_time_sync_server:
 	@sudo apt-get remove ntp ntpdate -qq
 	@sudo apt-get install chrony -qq
@@ -41,6 +43,7 @@ setup_time_sync_server:
 	@sudo systemctl --no-pager status chrony.service
 	chronyc sourcestats
 
+.PHONY: setup_time_sync_client
 setup_time_sync_client:
 	@sudo apt-get remove ntp ntpdate -qq
 	@sudo apt-get install chrony -qq
@@ -50,7 +53,9 @@ setup_time_sync_client:
 	@sudo systemctl --no-pager status chrony.service
 	chronyc sources
 
+.PHONY: deps
 deps: ${QGROUNDCONTROL}
 
+.PHONY: qgc
 qgc: ${QGROUNDCONTROL}
 	${QGROUNDCONTROL}
