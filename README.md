@@ -9,26 +9,21 @@ To setup the drone, enter the following commands in the terminal:
 
     wget -O setup_drone.bash https://git.io/fjcN6 && bash setup_drone.bash
 
-Else the `make` targets are:
+alternatively the `make` targets are:
 
-    qgc
+    qgc:
 
       Run QGroundControl. The command will download and install
       QGroundControl for you if it does not exist.
 
-    ubuntu18_usb
+    ubuntu18_usb:
 
       Launch Startup Disk Creator to create a Ubuntu USB install stick.
 
-    install_base
+    deps:
 
       Install/uninstall packages and apply settings on the Ubuntu 18.04 server
       installation.
-
-    test_realsense
-
-      Run a Python script to visualize the RealSense depth measurements using
-      ASCII on the terminal.
 
     setup_time_sync_server
 
