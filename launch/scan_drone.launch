@@ -1,0 +1,9 @@
+<launch>
+  <!-- Vicon -->
+  <include file="$(find mocap_vicon)/launch/vicon_F450.launch"/>
+
+  <!-- RealSense Camera -->
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+    <arg name="align_depth" value="true"/>
+  </include>
+</launch>

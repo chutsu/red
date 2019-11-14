@@ -3,19 +3,31 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-install_ppa_realsense() {
-	sudo apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || \
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 \
-			--recv-key C8B3A55A6F3EFCDE
-	sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main" -u
-	sudo apt-get -qq update
-	sudo apt-get -qq install librealsense2-dkms
-	sudo apt-get -qq install librealsense2-utils
-	sudo apt-get -qq install librealsense2-dev
+# DEPS
+apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade
+apt autoremove
+apt-get install \
+  git \
+  libssl-dev \
+  libusb-1.0-0-dev \
+  pkg-config \
+  libgtk-3-dev \
+  libglfw3-dev \
+  libgl1-mesa-dev \
+  libglu1-mesa-dev
 
-	# Install the Python wrapper
-	sudo apt -qq install python3-pip
-	pip3 install --user pyrealsense2
-}
+# CLONE REPO
+if [ ! -d "/usr/local/src/librealsense" ]; then
+  cd /usr/local/src
+  git clone https://github.com/IntelRealSense/librealsense
+fi
 
-install_ppa_realsense
+# BUILD REPO
+cd /usr/local/src/librealsense
+./scripts/setup_udev_rules.sh
+./scripts/patch-realsense-ubuntu-lts.sh
+mkdir -p build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make
+make install
