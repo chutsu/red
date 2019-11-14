@@ -1,7 +1,9 @@
 <package format="2">
   <name>red</name>
-  <version>0.1</version>
-  <description></description>
+  <version>0.0.1</version>
+  <description>Drones used at SRL</description>
   <maintainer email="chutsu@gmail.com">Chris Choi</maintainer>
   <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
 </package>
