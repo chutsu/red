@@ -16,7 +16,11 @@ done
 
 trap echo 0
 
-ping $* | while read line; do
+TIMEOUT=120
+SAMPLE_TIME=0.2
+COUNT=$(echo "$TIMEOUT/$SAMPLE_TIME" | bc)
+
+ping -c$COUNT -i$SAMPLE_TIME $* | while read line; do
 
   # Skip header
   [[ "$line" =~ ^PING ]] && continue
@@ -40,7 +44,7 @@ ping $* | while read line; do
 
   # Calculate date (not totally accurate)
   if [[ "$opts" =~ "--add-timestamp" ]]; then
-    timestamp=$(date +%s)
+    timestamp=$(date +%s%N)
     echo -n ",$timestamp"
   fi
   echo
