@@ -10,6 +10,13 @@ ping_id = ping_csv(:, 2);
 ping_time = ping_csv(:, 3);
 ping_timestamp_ns = ping_csv(:, 4);
 
+printf("Ping\n");
+printf("------------------------------\n");
+printf("min: %.4f ms\n", min(ping_time));
+printf("max: %.4f ms\n", max(ping_time));
+printf("mean: %.4f ms\n", mean(ping_time));
+printf("median: %.4f ms\n", median(ping_time));
+
 ts_first = ping_timestamp_ns(1);
 ping_rel_time = zeros(length(ping_timestamp_ns), 1);
 for i = 2:length(ping_timestamp_ns)
