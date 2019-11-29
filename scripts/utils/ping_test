@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-TIMEOUT=600
+TIMEOUT=300
 SAMPLE_TIME=0.2
 COUNT=$(echo "$TIMEOUT/$SAMPLE_TIME" | bc)
 
