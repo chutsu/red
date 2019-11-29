@@ -1,0 +1,197 @@
+#!/bin/bash
+set -e  # Exit on first error
+
+TARGET_IP=192.168.1.201
+TARGET_USER=srl
+
+HOST_IP=$(hostname -I)
+HOST_IP=${HOST_IP// /}
+TIMEOUT=60.0       # [s]
+SAMPLE_RATE=10.0   # [Hz]
+SAMPLE_SIZE=$(echo "scale=4; $TIMEOUT/(1.0/$SAMPLE_RATE)" | bc)
+SAVE_PATH="/tmp/ros_time_delays.csv"
+
+# # CLEAR PREVIOUS DATA
+# rm -f $SAVE_PATH
+#
+# # START ROSCORE
+# source /opt/ros/melodic/setup.bash;
+# export ROS_MASTER_URI=http://$HOST_IP:11311;
+# export ROS_IP=$HOST_IP;
+# export ROS_HOSTNAME=$HOST_IP;
+# ROSCORE_PID_PATH=/tmp/roscore.pid
+# roscore \
+#   > /tmp/ros.out \
+#   2> /tmp/ros.err \
+#   < /dev/null &
+#
+# # ROS TIME DELAY PUBLISHER
+# PUB_PID_PATH=/tmp/time_delay_pub.pid
+# cat << EOF > /tmp/time_delay_pub.py
+# #!/usr/bin/env python
+# import os
+# import rospy
+# from std_msgs.msg import Header
+#
+# def ping():
+#     pub = rospy.Publisher('/ping', Header, queue_size=10)
+#     rospy.init_node('ping_source', anonymous=True)
+#     rate = rospy.Rate($SAMPLE_RATE)  # Hz
+#
+#     seq = 0
+#     while not rospy.is_shutdown():
+#         msg = Header()
+#         msg.seq = seq
+#         msg.stamp = rospy.Time.now()
+#         msg.frame_id = "n/a"
+#         seq += 1
+#
+#         pub.publish(msg)
+#         rate.sleep()
+#
+# if __name__ == '__main__':
+#     try:
+#       pid = str(os.getpid())
+#       pidfile = "$PUB_PID_PATH"
+#       file(pidfile, 'w').write(pid)
+#
+#       ping()
+#     finally:
+#       os.unlink(pidfile)
+# EOF
+# echo "Uploading [time_delay_pub.py] to [$TARGET_IP]"
+# scp /tmp/time_delay_pub.py $TARGET_USER@$TARGET_IP:/tmp
+#
+# echo "Running time delay publisher...";
+# ssh -T $TARGET_USER@$TARGET_IP << EOF
+# touch ~/.hushlogin
+# source /opt/ros/melodic/setup.bash;
+# export ROS_MASTER_URI=http://$HOST_IP:11311;
+# export ROS_IP=$TARGET_IP;
+# export ROS_HOSTNAME=$TARGET_IP;
+#
+# if [ -f ${PUB_PID_PATH} ]; then
+#   echo "Time delay publisher already running!";
+#   echo "Killing it!"
+#   pkill -F ${PUB_PID_PATH}
+# fi
+# sleep 1
+#
+# nohup python /tmp/time_delay_pub.py > /tmp/ros.out 2>&1 &
+# EOF
+#
+# # ROS TIME DELAY SUBSCRIBER
+# cat << EOF > /tmp/time_delay_sub.py
+# #!/usr/bin/env python
+# import sys
+#
+# import numpy as np
+# import rospy
+# from std_msgs.msg import Header
+# from geometry_msgs.msg import PoseStamped
+# from geometry_msgs.msg import PoseWithCovarianceStamped
+#
+# TARGET_TOPIC = "/ping"
+# SAMPLE_SIZE = $SAMPLE_SIZE
+# SAVE_PATH = "$SAVE_PATH"
+# ts_first = None
+# time = np.array([])
+# time_delays = np.array([])
+#
+# def header_cb(msg):
+#     time_now = rospy.Time.now()
+#
+#     # First timestamp
+#     global ts_first
+#     if ts_first is None:
+#       ts_first = msg.stamp.to_nsec()
+#       return
+#
+#     # Calculate time delays
+#     time_delay_now = (time_now - msg.stamp).to_sec()
+#
+#     # Keep track
+#     global time
+#     global time_delays
+#     time = np.append(time, (time_now.to_nsec() - ts_first) * 1e-9)
+#     time_delays = np.append(time_delays, time_delay_now)
+#
+#     if time_delays.size > SAMPLE_SIZE:
+#         print("")
+#         print("Saving data to [%s]" % SAVE_PATH)
+#         data = zip(time, time_delays)
+#         header = "time[s],time_delay[s]"
+#         np.savetxt(SAVE_PATH, data, delimiter=",", header=header, fmt="%f,%f")
+#         rospy.signal_shutdown(-1)
+#
+#     sys.stdout.write(".")
+#     sys.stdout.flush()
+#
+# if __name__ == "__main__":
+#     rospy.init_node("TimeDelayChecker", anonymous=True)
+#     rospy.Subscriber(TARGET_TOPIC, Header, header_cb)
+#     rospy.spin()
+# EOF
+# echo "Running time delay subscriber...";
+# echo "Sampling for [${TIMEOUT}s] at a rate of [${SAMPLE_RATE}Hz]";
+# python /tmp/time_delay_sub.py
+#
+# # KILL EVERYTHING
+# echo "Killing time delay publisher!";
+# ssh $TARGET_USER@$TARGET_IP "pkill -F ${PUB_PID_PATH}";
+# echo "Killing roscore!";
+# pkill roscore
+
+# PLOT DATA
+# -- Time delay over time
+cat << EOF > /tmp/plot_time_delay.in
+set datafile separator ","
+set grid
+set xlabel "Time [s]"
+set ylabel "Time delay [s]"
+set title "Time delay = [$HOST_IP] - [$TARGET_IP]"
+
+set style line 1 \
+  linecolor rgb "red" \
+  linetype 1 linewidth 1 \
+  pointtype 1 pointsize 1.5
+
+stats "$SAVE_PATH" using 1:2 nooutput
+min_x = STATS_min_x
+max_x = STATS_max_x
+min_y = STATS_min_y
+max_y = STATS_max_y
+diff_x = (max_x - min_x)
+diff_y = (max_y - min_y)
+mean_y = (STATS_mean_y)
+median_y = (STATS_median_y)
+set label 1 gprintf("min = %.4g", min_y) at max_x*0.81, max_y
+set label 2 gprintf("max = %.4g", max_y) at max_x*0.81, max_y-(diff_y*0.05)
+set label 3 gprintf("mean = %.4g", mean_y) at max_x*0.81, max_y-(diff_y*0.10)
+set label 4 gprintf("median= %.4g", median_y) at max_x*0.81, max_y-(diff_y*0.15)
+
+set xrange [0:max_x]
+plot "$SAVE_PATH" using 1:2 with linespoints linestyle 1 notitle
+EOF
+if [ -f ${SAVE_PATH} ]; then
+  echo "Plotting time delay over time"
+  gnuplot -persist /tmp/plot_time_delay.in
+fi
+
+# -- Ping boxplot
+cat << EOF > /tmp/plot_time_delay.in
+set datafile separator ","
+set ylabel "Time delay [s]"
+set title "Time delay = [$HOST_IP] - [$TARGET_IP]"
+
+set style fill solid 0.25 border -1
+set style boxplot outliers pointtype 7
+set style data boxplot
+set xtics ('' 1,)
+
+plot "$SAVE_PATH" using (1):2 notitle
+EOF
+if [ -f ${SAVE_PATH} ]; then
+  echo "Plotting time delay boxplot"
+  gnuplot -persist /tmp/plot_time_delay.in
+fi

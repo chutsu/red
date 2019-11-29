@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-TIMEOUT=60
+TIMEOUT=600
 SAMPLE_TIME=0.2
 COUNT=$(echo "$TIMEOUT/$SAMPLE_TIME" | bc)
 
@@ -55,8 +55,6 @@ set style line 1 \
   linetype 1 linewidth 1 \
   pointtype 1 pointsize 1.5
 
-plot "ping-$1.csv" using 2:3 with linespoints linestyle 1 notitle
-
 stats "ping-$1.csv" using 2:3 nooutput
 min_x = STATS_min_x
 max_x = STATS_max_x
@@ -70,7 +68,9 @@ set label 1 gprintf("min = %g", min_y) at diff_x*0.05, max_y
 set label 2 gprintf("max = %g", max_y) at diff_x*0.05, max_y-(diff_y*0.05)
 set label 3 gprintf("mean = %g", mean_y) at diff_x*0.05, max_y-(diff_y*0.10)
 set label 4 gprintf("median= %g", median_y) at diff_x*0.05, max_y-(diff_y*0.15)
-replot
+
+set xrange [0:max_x]
+plot "ping-$1.csv" using 2:3 with linespoints linestyle 1 notitle
 EOF
 gnuplot -persist /tmp/plot_ping.in
 # -- Ping boxplot
