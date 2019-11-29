@@ -1,0 +1,76 @@
+#!/bin/bash
+set -e
+TIMEOUT=10
+SAMPLE_TIME=0.2
+COUNT=$(echo "$TIMEOUT/$SAMPLE_TIME" | bc)
+
+# Show usage
+if [ $# -lt 1 ]; then
+  echo "Usage: $0 <ping host>"
+  exit 99
+fi
+
+# PING DATA COLLECTION
+TIME=0
+echo "Ping test [time: ${TIMEOUT}s | sample time: ${SAMPLE_TIME}s]"
+echo -n "" > ping-"$1".csv
+ping -c$COUNT -i$SAMPLE_TIME $* | while read line; do
+  echo -n "."
+
+  # Skip header
+  [[ "$line" =~ ^PING ]] && continue
+
+  # Skip non-positive responses
+  [[ ! "$line" =~ "bytes from" ]] && continue
+
+  # Extract seq
+  seq=${line##*icmp_seq=}
+  seq=${seq%% *}
+
+  # Extract pint
+  ping=${line##*time=}
+  ping=${ping%% *}
+
+  # Extract address field
+  addr=${line##*bytes from }
+  addr=${addr%%:*}
+
+  echo "$seq,$TIME,$ping,$addr" >> ping-"$1".csv
+  TIME=$(echo "$TIME + $SAMPLE_TIME" | bc)
+done
+echo ""
+
+# PLOT DATA
+# -- Ping over time
+cat << EOF > /tmp/plot_ping.in
+set datafile separator ","
+set grid
+set xlabel "Time [s]"
+set ylabel "Ping (Round Trip) [ms]"
+set title "Ping test to [$1]"
+
+set style line 1 \
+  linecolor rgb "red" \
+  linetype 1 linewidth 1 \
+  pointtype 1 pointsize 1.5
+
+plot "ping-$1.csv" using 2:3 with linespoints linestyle 1 notitle
+EOF
+gnuplot -persist /tmp/plot_ping.in
+
+# -- Ping boxplot
+cat << EOF > /tmp/plot_ping.in
+set datafile separator ","
+set style fill solid 0.25 border -1
+set style boxplot outliers pointtype 7
+set style data boxplot
+set xtics ('$1' 1,)
+set title "Ping test to [$1]"
+
+plot "ping-$1.csv" using (1):3 notitle
+
+# set terminal png
+# set output "ping-$1-boxplot.png"
+# set term x11
+EOF
+gnuplot -persist /tmp/plot_ping.in
