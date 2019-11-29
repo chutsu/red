@@ -9,14 +9,14 @@ def ping():
 
     seq = 0
     while not rospy.is_shutdown():
- 	msg = Header()
+        msg = Header()
         msg.seq = seq
         msg.stamp = rospy.Time.now()
         msg.frame_id = "n/a"
-	seq += 1
+        seq += 1
 
         pub.publish(msg)
         rate.sleep()
 
 if __name__ == '__main__':
-        ping()
+    ping()

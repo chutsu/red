@@ -20,15 +20,14 @@ def header_cb(msg):
     timestamps = np.append(timestamps, time_now.to_nsec())
     time_delays = np.append(time_delays, time_delay_now)
     if time_delays.size > 1000:
-	data = zip(timestamps, time_delays)
-	save_path = "ros_time_delays.csv"
-	header = "timestamp[ns],time_delay[s]"
-	np.savetxt(save_path, data, delimiter=",",
-                   header=header, fmt="%ld,%f")
-	rospy.signal_shutdown(-1)
+    data = zip(timestamps, time_delays)
+    save_path = "ros_time_delays.csv"
+    header = "timestamp[ns],time_delay[s]"
+    np.savetxt(save_path, data, delimiter=",",
+               header=header, fmt="%ld,%f")
+    rospy.signal_shutdown(-1)
 
 if __name__ == "__main__":
     rospy.init_node("TimeDelayChecker", anonymous=True)
-    # rospy.Subscriber(TARGET_TOPIC, PoseWithCovarianceStamped, pose_stamped_cb)
     rospy.Subscriber(TARGET_TOPIC, Header, header_cb)
     rospy.spin()
