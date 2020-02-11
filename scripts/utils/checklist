@@ -1,0 +1,23 @@
+#!/bin/bash
+
+sysprog_is_active() {
+  systemctl is-active "$1" >/dev/null 2>&1
+  if [ "$?" == 0 ]; then
+    echo "[$1] is ok!"
+  else
+    echo "[$1] is not running!"
+  fi
+}
+
+sysprog_is_active ssh
+sysprog_is_active chrony
+
+# CHECK NTP SOURCE
+# NTP_SOURCE_STATE=$(chronyc sources | head -4 | tail -n1 | cut -d " " -f 1)
+# NTP_SOURCE_IP=$(chronyc sources | head -4 | tail -n1 | cut -d " " -f 2)
+# echo "ntp source state: $NTP_SOURCE_STATE"
+# echo "ntp source ip: $NTP_SOURCE_IP"
+
+# CHECK NTP TRACKING
+# NTP_TRACKING=$(chronyc tracking | head -1 | cut -d ":" -f 2)
+# echo "ntp tracking: $NTP_TRACKING"
