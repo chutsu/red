@@ -29,9 +29,9 @@ ubuntu18_usb:
 
 .PHONY: deps
 deps:
-	./scripts/install_base.bash
-	./scripts/install_ros.bash
-	./scripts/install_realsense.bash
+	./scripts/deps/install_base.bash
+	./scripts/deps/install_ros.bash
+	./scripts/deps/install_realsense.bash
 
 .PHONY: setup_time_sync_server
 setup_time_sync_server:

@@ -1,11 +1,9 @@
 #!/bin/bash
 set -e
-# TIMEOUT=300
-TIMEOUT=5
+TIMEOUT=300
 SAMPLE_TIME=0.2
 COUNT=$(echo "$TIMEOUT/$SAMPLE_TIME" | bc)
 SCRIPT_PATH="`dirname \"$0\"`"
-
 
 # Show usage
 if [ $# -lt 1 ]; then
